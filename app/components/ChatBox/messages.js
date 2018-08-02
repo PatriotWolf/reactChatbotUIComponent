@@ -9,6 +9,6 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
     header: {
         id: 'app.components.ChatBox.header',
-        defaultMessage: 'This is the ChatBox component !',
+        defaultMessage: 'Hye Talk To Me !',
     },
 });

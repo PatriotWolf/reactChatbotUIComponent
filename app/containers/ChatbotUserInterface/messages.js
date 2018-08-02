@@ -9,6 +9,6 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
     header: {
         id: 'app.containers.ChatbotUserInterface.header',
-        defaultMessage: 'This is ChatbotUserInterface!',
+        defaultMessage: 'Try Me Out!',
     },
 });

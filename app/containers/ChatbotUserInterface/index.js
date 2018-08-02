@@ -21,46 +21,56 @@ import messages from './messages';
 
 /* eslint-disable react/prefer-stateless-function */
 export class ChatbotUserInterface extends React.PureComponent {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             messages: [
-                {   id: new Date().getTime(),
+                {
+                    id: new Date().getTime(),
                     from: 'bot',
-                    text:'Hye there!! can I help you?',
+                    text: 'Hye there!! can I help you?',
                     isFile: false,
-                    timestamp: new Date()
+                    timestamp: new Date(),
                 },
-                {   id: new Date().getTime() + 1,
+                {
+                    id: new Date().getTime() + 1,
                     from: 'user',
-                    text:'asdasdasdasd',
+                    text: 'asdasdasdasd',
                     isFile: false,
-                    timestamp: new Date()
-                }
+                    timestamp: new Date(),
+                },
             ],
-        }
+        };
+        const myAudio = new Audio(
+            'http://66.90.93.122/ost/digimon-world-3/jlujtork/Main%20Lobby.mp3',
+        );
+        myAudio.addEventListener(
+            'ended',
+            function() {
+                this.currentTime = 0;
+                this.play();
+            },
+            false,
+        );
+        myAudio.play();
         this.addText = this.addText.bind(this);
     }
-    addText(text){
-        console.log('hey!')
-        let newObj = {
+    addText(text) {
+        console.log('hey!');
+        const newObj = {
             id: new Date().getTime(),
             from: 'user',
-            text: text,
+            text,
             isFile: false,
-            timestamp: new Date()
-        }
+            timestamp: new Date(),
+        };
         this.setState(prevState => ({
-          messages: [...prevState.messages, newObj]
-        }))
+            messages: [...prevState.messages, newObj],
+        }));
     }
     render() {
         return (
             <div className="container">
-                <audio autoPlay loop>
-                  <source src="http://66.90.93.122/ost/digimon-world-3/jlujtork/Main%20Lobby.mp3" type="audio/mpeg"/>
-                Your browser does not support the audio element.
-                </audio>
                 <FormattedMessage {...messages.header} />
                 <ChatBox messages={this.state.messages} action={this.addText} />
             </div>
