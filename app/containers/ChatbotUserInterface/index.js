@@ -41,18 +41,6 @@ export class ChatbotUserInterface extends React.PureComponent {
                 },
             ],
         };
-        const myAudio = new Audio(
-            'http://66.90.93.122/ost/digimon-world-3/jlujtork/Main%20Lobby.mp3',
-        );
-        myAudio.addEventListener(
-            'ended',
-            function() {
-                this.currentTime = 0;
-                this.play();
-            },
-            false,
-        );
-        myAudio.play();
         this.addText = this.addText.bind(this);
     }
     addText(text) {
