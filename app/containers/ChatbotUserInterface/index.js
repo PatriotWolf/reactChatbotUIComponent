@@ -44,7 +44,6 @@ export class ChatbotUserInterface extends React.PureComponent {
         this.addText = this.addText.bind(this);
     }
     addText(text) {
-        console.log('hey!');
         const newObj = {
             id: new Date().getTime(),
             from: 'user',
