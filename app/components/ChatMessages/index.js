@@ -23,18 +23,31 @@ function formatDate(date) {
 }
 
 function ChatMessages(props) {
-    console.log(props.messages);
     return (
         <div className="messages-content container">
             {props.messages.map(element => {
-                console.log(element);
                 if (element.from === 'bot') {
                     return (
                         <div className="message new" key={element.id}>
                             <figure className="avatar">
                                 <img src={Avatar} alt="Bot's Avatar" />
                             </figure>
-                            {element.text}
+                            {element.text} <br />
+                            {Object.prototype.hasOwnProperty.call(
+                                element,
+                                'button',
+                            ) &&
+                                element.button.map(button => (
+                                    <button
+                                        className="btn btn-sm btn-primary"
+                                        key={button.id}
+                                        onClick={e => {
+                                            props.onHandleClick(e);
+                                        }}
+                                    >
+                                        {button.text}
+                                    </button>
+                                ))}
                             <div className="timestamp">
                                 {formatDate(element.timestamp)}
                             </div>

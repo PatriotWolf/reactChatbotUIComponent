@@ -22,12 +22,10 @@ class ChatBox extends React.PureComponent {
         };
         this.messagesEnd = null;
         this.scrollToBottom = this.scrollToBottom.bind(this);
+        this.onHandleClick = this.onHandleClick.bind(this);
         this.onHandleKeyPress = this.onHandleKeyPress.bind(this);
         this.onHandleChange = this.onHandleChange.bind(this);
         this.onHandleSubmit = this.onHandleSubmit.bind(this);
-    }
-    scrollToBottom() {
-        this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
     }
 
     componentDidMount() {
@@ -35,6 +33,17 @@ class ChatBox extends React.PureComponent {
     }
 
     componentDidUpdate() {
+        this.scrollToBottom();
+    }
+
+    scrollToBottom() {
+        this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
+    }
+    onHandleClick(e) {
+        this.props.action(e.target.innerHTML);
+        this.setState({
+            text: '',
+        });
         this.scrollToBottom();
     }
     onHandleKeyPress(e) {
@@ -76,7 +85,10 @@ class ChatBox extends React.PureComponent {
                             </figure>
                         </div>
                         <div className="messages">
-                            <ChatMessages messages={this.props.messages} />
+                            <ChatMessages
+                                messages={this.props.messages}
+                                onHandleClick={this.onHandleClick}
+                            />
                             <div
                                 style={{ float: 'left', clear: 'both' }}
                                 ref={el => {

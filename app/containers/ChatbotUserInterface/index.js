@@ -39,6 +39,23 @@ export class ChatbotUserInterface extends React.PureComponent {
                     isFile: false,
                     timestamp: new Date(),
                 },
+                {
+                    id: new Date().getTime() + 2,
+                    from: 'bot',
+                    text: 'But first, can I help you?',
+                    button: [
+                        {
+                            id: 0,
+                            text: 'Sign-In',
+                        },
+                        {
+                            id: 1,
+                            text: 'Log-In',
+                        },
+                    ],
+                    isFile: false,
+                    timestamp: new Date(),
+                },
             ],
         };
         this.addText = this.addText.bind(this);
