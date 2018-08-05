@@ -38,19 +38,53 @@ function ChatMessages(props) {
                                 'button',
                             ) &&
                                 element.button.map(button => (
-                                    <button
-                                        className="btn btn-sm btn-primary"
-                                        key={button.id}
-                                        onClick={e => {
-                                            props.onHandleClick(e);
-                                        }}
-                                    >
-                                        {button.text}
-                                    </button>
+                                    <span>
+                                        <button
+                                            className="btn btn-xs btn-primary"
+                                            key={button.id}
+                                            onClick={e => {
+                                                props.onHandleClick(e);
+                                            }}
+                                        >
+                                            {button.text}
+                                        </button>&nbsp;
+                                    </span>
                                 ))}
+                            {/* this is breaking point of button group or separated button */}
+                            {Object.prototype.hasOwnProperty.call(
+                                element,
+                                'button',
+                            ) && (
+                                <span>
+                                    <br />
+                                    <br />
+                                    <div className="btn-group">
+                                        {element.button.map(button => (
+                                            <button
+                                                className="btn btn-xs btn-primary"
+                                                key={button.id}
+                                                onClick={e => {
+                                                    props.onHandleClick(e);
+                                                }}
+                                            >
+                                                {button.text}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </span>
+                            )}
                             <div className="timestamp">
                                 {formatDate(element.timestamp)}
                             </div>
+                        </div>
+                    );
+                } else if (element.isFile) {
+                    return (
+                        <div
+                            className="message message-personal new"
+                            key={element.id}
+                        >
+                            <img src={element.url} alt="Sent images" />
                         </div>
                     );
                 }

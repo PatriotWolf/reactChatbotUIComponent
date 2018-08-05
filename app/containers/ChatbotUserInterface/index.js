@@ -59,6 +59,7 @@ export class ChatbotUserInterface extends React.PureComponent {
             ],
         };
         this.addText = this.addText.bind(this);
+        this.addImage = this.addImage.bind(this);
     }
     addText(text) {
         const newObj = {
@@ -72,11 +73,27 @@ export class ChatbotUserInterface extends React.PureComponent {
             messages: [...prevState.messages, newObj],
         }));
     }
+    addImage(url) {
+        const newObj = {
+            id: new Date().getTime(),
+            from: 'user',
+            url,
+            isFile: true,
+            timestamp: new Date(),
+        };
+        this.setState(prevState => ({
+            messages: [...prevState.messages, newObj],
+        }));
+    }
     render() {
         return (
             <div className="container">
                 <FormattedMessage {...messages.header} />
-                <ChatBox messages={this.state.messages} action={this.addText} />
+                <ChatBox
+                    messages={this.state.messages}
+                    action={this.addText}
+                    actionImage={this.addImage}
+                />
             </div>
         );
     }

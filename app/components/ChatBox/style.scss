@@ -431,4 +431,55 @@
     {
         background-color: #000000;
     }
+    .fileContainer {
+        overflow: hidden;
+        position: relative;
+    }
+
+    .fileContainer [type=file] {
+        cursor: inherit;
+        display: block;
+        font-size: 999px;
+        filter: alpha(opacity=0);
+        min-height: 100%;
+        min-width: 100%;
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        text-align: right;
+        top: 0;
+    }
+
+    /* Example stylistic flourishes */
+
+    .fileContainer {
+            position: absolute;
+    z-index: 1;
+    top: 9px;
+    right: 61px;
+    color: #fff;
+    border: none;
+    background: #248A52;
+    font-size: 10px;
+    text-transform: uppercase;
+    line-height: 1;
+    padding: 6px 10px;
+    border-radius: 10px;
+    outline: none !important;
+    -webkit-transition: background .2s ease;
+    transition: background .2s ease;
+    }
+
+    .fileContainer [type=file] {
+        cursor: pointer;
+    }
+    .btn-xs {
+        padding: 1px 5px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 3px;
+    }
+    img{
+        width: 100%;
+    }
 }

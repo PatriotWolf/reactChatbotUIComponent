@@ -22,6 +22,7 @@ class ChatBox extends React.PureComponent {
         };
         this.messagesEnd = null;
         this.scrollToBottom = this.scrollToBottom.bind(this);
+        this.onHandleFileUpload = this.onHandleFileUpload.bind(this);
         this.onHandleClick = this.onHandleClick.bind(this);
         this.onHandleKeyPress = this.onHandleKeyPress.bind(this);
         this.onHandleChange = this.onHandleChange.bind(this);
@@ -38,6 +39,17 @@ class ChatBox extends React.PureComponent {
 
     scrollToBottom() {
         this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
+    }
+    onHandleFileUpload(e) {
+        console.log(e.target.files);
+        const reader = new FileReader();
+        let url;
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onload = () => {
+            url = reader.result;
+            this.props.actionImage(url);
+            this.forceUpdate();
+        };
     }
     onHandleClick(e) {
         this.props.action(e.target.innerHTML);
@@ -106,6 +118,17 @@ class ChatBox extends React.PureComponent {
                                     onChange={this.onHandleChange}
                                     onKeyUp={this.onHandleKeyPress}
                                 />
+                                <button type="button" className="fileContainer">
+                                    File
+                                    <input
+                                        type="file"
+                                        className="input-pic"
+                                        onChange={e =>
+                                            this.onHandleFileUpload(e)
+                                        }
+                                        accept="image/*"
+                                    />
+                                </button>
                                 <button
                                     type="submit"
                                     className="message-submit"
@@ -124,6 +147,7 @@ class ChatBox extends React.PureComponent {
 
 ChatBox.propTypes = {
     action: PropTypes.func,
+    actionImage: PropTypes.func,
     messages: PropTypes.array,
 };
 
