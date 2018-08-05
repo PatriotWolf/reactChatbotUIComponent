@@ -42,7 +42,7 @@ export class ChatbotUserInterface extends React.PureComponent {
                 {
                     id: new Date().getTime() + 2,
                     from: 'bot',
-                    text: 'But first, can I help you?',
+                    text: 'But first, what you want to do?',
                     button: [
                         {
                             id: 0,
@@ -53,14 +53,28 @@ export class ChatbotUserInterface extends React.PureComponent {
                             text: 'Log-In',
                         },
                     ],
+                    isButtonDisabled: false,
                     isFile: false,
                     timestamp: new Date(),
                 },
             ],
         };
+        const myAudio = new Audio(
+            'http://66.90.93.122/ost/digimon-world-3/jlujtork/Main%20Lobby.mp3',
+        );
+        myAudio.addEventListener(
+            'ended',
+            function() {
+                this.currentTime = 0;
+                this.play();
+            },
+            false,
+        );
+        myAudio.play();
         this.addText = this.addText.bind(this);
         this.addImage = this.addImage.bind(this);
         this.removeMessages = this.removeMessages.bind(this);
+        this.disableButton = this.disableButton.bind(this);
     }
     addText(text) {
         const newObj = {
@@ -94,6 +108,15 @@ export class ChatbotUserInterface extends React.PureComponent {
             messages: array,
         });
     }
+    disableButton(element, newMessages) {
+        const array = [...this.state.messages]; // make a separate copy of the array
+        const index = array.indexOf(element);
+        array[index].isButtonDisabled = true;
+        this.setState({
+            messages: array,
+        });
+        this.addText(newMessages);
+    }
     render() {
         return (
             <div className="container">
@@ -103,6 +126,7 @@ export class ChatbotUserInterface extends React.PureComponent {
                     action={this.addText}
                     actionImage={this.addImage}
                     removeMessages={this.removeMessages}
+                    disableButton={this.disableButton}
                 />
             </div>
         );

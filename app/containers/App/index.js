@@ -22,7 +22,8 @@ export default function App() {
     return (
         <div>
             <Switch>
-                <Route exact path="/" component={HomePage} />
+                <Route exact path="/home" component={HomePage} />
+                <Route exact path="/" component={ChatbotUserInterface} />
                 <Route exact path="/chatbot" component={ChatbotUserInterface} />
                 <Route component={NotFoundPage} />
             </Switch>

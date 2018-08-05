@@ -35,63 +35,54 @@ function ChatMessages(props) {
                 }
 
                 if (element.from === 'bot') {
+                    window.responsiveVoice.speak(
+                        element.text,
+                        'US English Male',
+                    );
                     return (
                         <div className="message new" key={element.id}>
                             <figure className="avatar">
                                 <img src={Avatar} alt="Bot's Avatar" />
                             </figure>
-                            {content} <br />
-                            {Object.prototype.hasOwnProperty.call(
-                                element,
-                                'button',
-                            ) &&
-                                element.button.map(button => (
-                                    <span>
-                                        <button
-                                            className="btn btn-xs btn-primary"
-                                            key={button.id}
-                                            onClick={e => {
-                                                props.onHandleClick(e);
-                                            }}
-                                        >
-                                            {button.text}
-                                        </button>&nbsp;
-                                    </span>
-                                ))}
-                            {/* this is breaking point of button group or separated button */}
+                            {content}
+                            <br />
                             {Object.prototype.hasOwnProperty.call(
                                 element,
                                 'button',
                             ) && (
                                 <span>
-                                    <br />
-                                    <br />
                                     <div className="btn-group">
                                         {element.button.map(button => (
                                             <button
                                                 className="btn btn-xs btn-primary"
                                                 key={button.id}
                                                 onClick={e => {
-                                                    props.onHandleClick(e);
+                                                    props.onHandleClick(
+                                                        e,
+                                                        element,
+                                                    );
                                                 }}
+                                                disabled={
+                                                    element.isButtonDisabled
+                                                }
                                             >
                                                 {button.text}
                                             </button>
                                         ))}
                                     </div>
+                                    <br />
                                 </span>
                             )}
                             <div className="timestamp">
                                 {formatDate(element.timestamp)}
                             </div>
-                            <br />
                             <button
                                 className="text-white"
                                 onClick={() => {
                                     props.onHandleDeleteMessage(element);
                                 }}
                             >
-                                delete
+                                <u>delete</u>
                             </button>
                         </div>
                     );
@@ -109,7 +100,7 @@ function ChatMessages(props) {
                                 props.onHandleDeleteMessage(element);
                             }}
                         >
-                            delete
+                            <u>delete</u>
                         </button>
                         <div className="timestamp">
                             {formatDate(element.timestamp)}

@@ -42,7 +42,6 @@ class ChatBox extends React.PureComponent {
         this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
     }
     onHandleFileUpload(e) {
-        console.log(e.target.files);
         const reader = new FileReader();
         let url;
         reader.readAsDataURL(e.target.files[0]);
@@ -51,8 +50,8 @@ class ChatBox extends React.PureComponent {
             this.props.actionImage(url);
         };
     }
-    onHandleClick(e) {
-        this.props.action(e.target.innerHTML);
+    onHandleClick(e, element) {
+        this.props.disableButton(element, e.target.innerHTML);
         this.setState({
             text: '',
         });
@@ -155,6 +154,7 @@ ChatBox.propTypes = {
     action: PropTypes.func,
     actionImage: PropTypes.func,
     removeMessages: PropTypes.func,
+    disableButton: PropTypes.func,
     messages: PropTypes.array,
 };
 
