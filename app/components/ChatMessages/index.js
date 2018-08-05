@@ -26,13 +26,21 @@ function ChatMessages(props) {
     return (
         <div className="messages-content container">
             {props.messages.map(element => {
+                let content = null;
+
+                if (element.isFile) {
+                    content = <img src={element.url} alt="Sent images" />;
+                } else {
+                    content = element.text;
+                }
+
                 if (element.from === 'bot') {
                     return (
                         <div className="message new" key={element.id}>
                             <figure className="avatar">
                                 <img src={Avatar} alt="Bot's Avatar" />
                             </figure>
-                            {element.text} <br />
+                            {content} <br />
                             {Object.prototype.hasOwnProperty.call(
                                 element,
                                 'button',
@@ -76,15 +84,15 @@ function ChatMessages(props) {
                             <div className="timestamp">
                                 {formatDate(element.timestamp)}
                             </div>
-                        </div>
-                    );
-                } else if (element.isFile) {
-                    return (
-                        <div
-                            className="message message-personal new"
-                            key={element.id}
-                        >
-                            <img src={element.url} alt="Sent images" />
+                            <br />
+                            <button
+                                className="text-white"
+                                onClick={() => {
+                                    props.onHandleDeleteMessage(element);
+                                }}
+                            >
+                                delete
+                            </button>
                         </div>
                     );
                 }
@@ -93,7 +101,16 @@ function ChatMessages(props) {
                         className="message message-personal new"
                         key={element.id}
                     >
-                        {element.text}
+                        {content}
+                        <br />
+                        <button
+                            className="text-white"
+                            onClick={() => {
+                                props.onHandleDeleteMessage(element);
+                            }}
+                        >
+                            delete
+                        </button>
                         <div className="timestamp">
                             {formatDate(element.timestamp)}
                         </div>

@@ -35,7 +35,7 @@ export class ChatbotUserInterface extends React.PureComponent {
                 {
                     id: new Date().getTime() + 1,
                     from: 'user',
-                    text: 'asdasdasdasd',
+                    text: 'Somebody!! Help!',
                     isFile: false,
                     timestamp: new Date(),
                 },
@@ -60,6 +60,7 @@ export class ChatbotUserInterface extends React.PureComponent {
         };
         this.addText = this.addText.bind(this);
         this.addImage = this.addImage.bind(this);
+        this.removeMessages = this.removeMessages.bind(this);
     }
     addText(text) {
         const newObj = {
@@ -85,6 +86,14 @@ export class ChatbotUserInterface extends React.PureComponent {
             messages: [...prevState.messages, newObj],
         }));
     }
+    removeMessages(arrayElement) {
+        const array = [...this.state.messages]; // make a separate copy of the array
+        const index = array.indexOf(arrayElement);
+        array.splice(index, 1);
+        this.setState({
+            messages: array,
+        });
+    }
     render() {
         return (
             <div className="container">
@@ -93,6 +102,7 @@ export class ChatbotUserInterface extends React.PureComponent {
                     messages={this.state.messages}
                     action={this.addText}
                     actionImage={this.addImage}
+                    removeMessages={this.removeMessages}
                 />
             </div>
         );

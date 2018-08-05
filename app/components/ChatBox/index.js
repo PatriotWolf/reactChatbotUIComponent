@@ -27,6 +27,7 @@ class ChatBox extends React.PureComponent {
         this.onHandleKeyPress = this.onHandleKeyPress.bind(this);
         this.onHandleChange = this.onHandleChange.bind(this);
         this.onHandleSubmit = this.onHandleSubmit.bind(this);
+        this.onHandleDeleteMessage = this.onHandleDeleteMessage.bind(this);
     }
 
     componentDidMount() {
@@ -48,7 +49,6 @@ class ChatBox extends React.PureComponent {
         reader.onload = () => {
             url = reader.result;
             this.props.actionImage(url);
-            this.forceUpdate();
         };
     }
     onHandleClick(e) {
@@ -82,6 +82,9 @@ class ChatBox extends React.PureComponent {
         });
         this.scrollToBottom();
     }
+    onHandleDeleteMessage(index) {
+        this.props.removeMessages(index);
+    }
     render() {
         return (
             <div>
@@ -100,6 +103,9 @@ class ChatBox extends React.PureComponent {
                             <ChatMessages
                                 messages={this.props.messages}
                                 onHandleClick={this.onHandleClick}
+                                onHandleDeleteMessage={
+                                    this.onHandleDeleteMessage
+                                }
                             />
                             <div
                                 style={{ float: 'left', clear: 'both' }}
@@ -148,6 +154,7 @@ class ChatBox extends React.PureComponent {
 ChatBox.propTypes = {
     action: PropTypes.func,
     actionImage: PropTypes.func,
+    removeMessages: PropTypes.func,
     messages: PropTypes.array,
 };
 
