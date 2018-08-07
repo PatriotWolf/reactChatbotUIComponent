@@ -23,111 +23,25 @@ import messages from './messages';
 export class ChatbotUserInterface extends React.PureComponent {
     constructor(props) {
         super(props);
-        this.state = {
-            messages: [
-                {
-                    id: new Date().getTime(),
-                    from: 'bot',
-                    text: 'Hye there!! can I help you?',
-                    isFile: false,
-                    timestamp: new Date(),
-                },
-                {
-                    id: new Date().getTime() + 1,
-                    from: 'user',
-                    text: 'Somebody!! Help!',
-                    isFile: false,
-                    timestamp: new Date(),
-                },
-                {
-                    id: new Date().getTime() + 2,
-                    from: 'bot',
-                    text: 'But first, what you want to do?',
-                    button: [
-                        {
-                            id: 0,
-                            text: 'Sign-In',
-                        },
-                        {
-                            id: 1,
-                            text: 'Log-In',
-                        },
-                    ],
-                    isButtonDisabled: false,
-                    isFile: false,
-                    timestamp: new Date(),
-                },
-            ],
-        };
-        const myAudio = new Audio(
-            'http://66.90.93.122/ost/digimon-world-3/jlujtork/Main%20Lobby.mp3',
-        );
-        myAudio.addEventListener(
-            'ended',
-            function() {
-                this.currentTime = 0;
-                this.play();
-            },
-            false,
-        );
-        myAudio.play();
-        this.addText = this.addText.bind(this);
-        this.addImage = this.addImage.bind(this);
-        this.removeMessages = this.removeMessages.bind(this);
-        this.disableButton = this.disableButton.bind(this);
+        this.botReply = this.botReply.bind(this);
     }
-    addText(text) {
-        const newObj = {
-            id: new Date().getTime(),
-            from: 'user',
-            text,
-            isFile: false,
-            timestamp: new Date(),
-        };
-        this.setState(prevState => ({
-            messages: [...prevState.messages, newObj],
-        }));
+
+    botReply(text, pushMessage) {
+        fetch('http://13.76.181.19:8080/api/message', {
+            method: 'post',
+            body: JSON.stringify(text),
+        })
+            .then(response => response.json())
+            .then(data => {
+                pushMessage(data);
+            });
     }
-    addImage(url) {
-        const newObj = {
-            id: new Date().getTime(),
-            from: 'user',
-            url,
-            isFile: true,
-            timestamp: new Date(),
-        };
-        this.setState(prevState => ({
-            messages: [...prevState.messages, newObj],
-        }));
-    }
-    removeMessages(arrayElement) {
-        const array = [...this.state.messages]; // make a separate copy of the array
-        const index = array.indexOf(arrayElement);
-        array.splice(index, 1);
-        this.setState({
-            messages: array,
-        });
-    }
-    disableButton(element, newMessages) {
-        const array = [...this.state.messages]; // make a separate copy of the array
-        const index = array.indexOf(element);
-        array[index].isButtonDisabled = true;
-        this.setState({
-            messages: array,
-        });
-        this.addText(newMessages);
-    }
+
     render() {
         return (
             <div className="container">
                 <FormattedMessage {...messages.header} />
-                <ChatBox
-                    messages={this.state.messages}
-                    action={this.addText}
-                    actionImage={this.addImage}
-                    removeMessages={this.removeMessages}
-                    disableButton={this.disableButton}
-                />
+                <ChatBox messageUpdate={this.botReply} />
             </div>
         );
     }

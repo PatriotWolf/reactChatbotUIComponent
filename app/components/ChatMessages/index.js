@@ -35,10 +35,6 @@ function ChatMessages(props) {
                 }
 
                 if (element.from === 'bot') {
-                    window.responsiveVoice.speak(
-                        element.text,
-                        'US English Male',
-                    );
                     return (
                         <div className="message new" key={element.id}>
                             <figure className="avatar">
@@ -108,18 +104,21 @@ function ChatMessages(props) {
                     </div>
                 );
             })}
-            <div className="message loading new">
-                <figure className="avatar">
-                    <img src={Avatar} alt="Bot's Avatar" />
-                </figure>
-                <span />
-            </div>
+            {props.isTyping && (
+                <div className="message loading new">
+                    <figure className="avatar">
+                        <img src={Avatar} alt="Bot's Avatar" />
+                    </figure>
+                    <span />
+                </div>
+            )}
         </div>
     );
 }
 
 ChatMessages.propTypes = {
     messages: PropTypes.array,
+    isTyping: PropTypes.bool,
 };
 
 export default ChatMessages;
